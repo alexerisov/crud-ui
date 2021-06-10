@@ -1,37 +1,32 @@
 import * as React from 'react';
-import { Button } from '@material-ui/core'
+import SaveEditButtons from './SaveEditButtons';
 import { DataGrid } from '@material-ui/data-grid';
+import {makeStyles} from '@material-ui/core/styles';
+import Create from './Create';
+
+
+const useStyles = makeStyles({
+    root: {
+        '&.MuiDataGrid-root .MuiDataGrid-cell': {
+            outline: 'none',
+        },
+        '&.MuiDataGrid-root .MuiDataGrid-columnHeader': {
+            outline: 'none',
+        }
+    }
+});
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'firstName', headerName: 'First name', width: 130 },
-    { field: 'lastName', headerName: 'Last name', width: 130 },
-    { field: 'age', headerName: 'Age', type: 'number', width: 90 },
-    {
-        field: 'fullName',
-        headerName: 'Full name',
-        flex: 1,
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-            `${params.getValue(params.id, 'firstName') || ''} ${
-                params.getValue(params.id, 'lastName') || ''
-            }`,
-    },
+    { field: 'firstName', editable: true, headerName: 'First name', flex: 1/5 },
+    { field: 'lastName', editable: true, headerName: 'Last name', flex: 1/5},
     {
         field: ' ',
         sortable: false,
-        width: 100,
-        renderCell: () => (
-                <Button
-                    color="primary"
-                    size="small"
-                    style={{ margin: 'auto' }}
-                >
-                    Edit
-                </Button>
-        ),
+        flex: 3/5,
+        align: 'right',
+        headerAlign: 'right',
+        renderHeader: () => <Create />,
+        renderCell: (params) => <SaveEditButtons params={params}/>,
     },
 ];
 
@@ -45,12 +40,42 @@ const rows = [
     { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
     { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
     { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
+    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
 ];
 
 export default function DataTable() {
+
+    const handleDoubleCellClick = React.useCallback((params, event) => {
+        event.stopPropagation();
+    }, []);
+
+// Prevent from rolling back on escape
+    const handleCellKeyDown = React.useCallback((params, event) => {
+        if (['Escape', 'Delete', 'Backspace', 'Enter', 'Tab'].includes(event.key)) {
+            event.stopPropagation();
+        }
+    }, []);
+
+// Prevent from committing on blur
+    const handleCellBlur = React.useCallback((params, event) => {
+        if (params.cellMode === 'edit') {
+            event?.stopPropagation();
+        }
+    }, []);
+
+    const classes = useStyles();
+
     return (
         <div style={{ height: 400, width: '100%' }}>
-            <DataGrid rows={rows} columns={columns} pageSize={5} />
+            <DataGrid rows={rows}
+                      columns={columns}
+                      pageSize={5}
+                      disableSelectionOnClick
+                      onCellDoubleClick={handleDoubleCellClick}
+                      onCellBlur={handleCellBlur}
+                      onCellKeyDown={handleCellKeyDown}
+                      disableColumnMenu
+                      className={classes.root}/>
         </div>
     );
 }
