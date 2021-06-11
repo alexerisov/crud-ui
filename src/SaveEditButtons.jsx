@@ -2,33 +2,38 @@ import React, { useState } from 'react'
 import { Button, ButtonGroup } from '@material-ui/core'
 
 
-const SaveEditButtons = ({params}) => {
+const SaveEditButtons = ({params, commit, remove}) => {
     const [isEditing, setIsEditing] = useState(false)
     const thisRow = params.api.getRow(params.id)
-    console.log(thisRow.isEditing)
+
+    const handleMouseDown = (event) => {
+        // Keep the focus in the cell
+        event.preventDefault();
+    };
 
     const setRowMode = (mode) => {
         const editableCells = ['firstName', 'lastName']
         editableCells.forEach(el => {
             params.api.setCellMode(params.id, el, mode)
         })
-        setIsEditing(mode === 'edit' ? true : false)
+        setIsEditing(mode === 'edit')
     }
 
     if (isEditing)
         return (
             <ButtonGroup color="primary" size="small">
-                 <Button
-                    onClick= {() => {
-                        setRowMode('view')
-                    }}
+                 <Button onMouseDown={handleMouseDown}
+                         onClick= {() => {
+                                commit(params)
+                                setRowMode('view')
+                         }}
                 >
                     Save
                 </Button>
-                <Button
-                    onClick= {() => {
-                        setRowMode('view')
-                    }}
+                <Button onMouseDown={handleMouseDown}
+                        onClick= {() => {
+                         setRowMode('view')
+                        }}
                 >
                     Cancel
                 </Button>
@@ -37,17 +42,17 @@ const SaveEditButtons = ({params}) => {
     else
         return (
             <ButtonGroup color="primary" size="small">
-                <Button
-                    onClick= {() => {
-                        setRowMode('edit')
-                    }}
+                <Button onMouseDown={handleMouseDown}
+                        onClick= {() => {
+                          setRowMode('edit')
+                         }}
                 >
                     Edit
                 </Button>
-                <Button
-                    onClick= {() => {
-                        //delete func
-                    }}
+                <Button onMouseDown={handleMouseDown}
+                        onClick= {() => {
+                            remove(params)
+                        }}
                 >
                     Delete
                 </Button>
