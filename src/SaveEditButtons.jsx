@@ -36,15 +36,22 @@ const SaveEditButtons = ({params}) => {
         )
     else
         return (
-             <Button
-                color="primary"
-                size="small"
-                onClick= {() => {
-                    setRowMode('edit')
-                }}
-            >
-                Edit
-            </Button>
+            <ButtonGroup color="primary" size="small">
+                <Button
+                    onClick= {() => {
+                        setRowMode('edit')
+                    }}
+                >
+                    Edit
+                </Button>
+                <Button
+                    onClick= {() => {
+                        //delete func
+                    }}
+                >
+                    Delete
+                </Button>
+            </ButtonGroup>
     )
 }
 
