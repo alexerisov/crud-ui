@@ -43,10 +43,15 @@ export default function Create() {
                                 <ButtonGroup size="large"
                                              variant="text"
                                 >
-                                    <Button onClick= {() => {}}>
+                                    <Button onClick= {() => {
+                                        //save func
+                                        popupState.close()
+                                    }}>
                                         Save
                                     </Button>
-                                    <Button onClick= {() => {}}>
+                                    <Button onClick= {() => {
+                                        popupState.close()
+                                    }}>
                                         Cancel
                                     </Button>
                                 </ButtonGroup>
