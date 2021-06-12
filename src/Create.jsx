@@ -8,7 +8,18 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import TextField from '@material-ui/core/TextField';
 import {ButtonGroup} from '@material-ui/core';
 
-export default function Create() {
+export default function Create({params, create}) {
+    const [firstName, setFirstName] = React.useState();
+    const [lastName, setLastName] = React.useState();
+
+    const handleFirstnameChange = (event) => {
+        setFirstName(event.target.value);
+    };
+
+    const handleLastnameChange = (event) => {
+        setLastName(event.target.value);
+    };
+
     return (
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (
@@ -34,17 +45,19 @@ export default function Create() {
                                            label="First name"
                                            variant="outlined"
                                            size="small"
+                                           onChange={handleFirstnameChange}
                                 />
                                 <TextField id="lastName"
                                            label="Last name"
                                            variant="outlined"
                                            size="small"
+                                           onChange={handleLastnameChange}
                                 />
                                 <ButtonGroup size="large"
                                              variant="text"
                                 >
                                     <Button onClick= {() => {
-                                        //save func
+                                        create({params, lastName, firstName})
                                         popupState.close()
                                     }}>
                                         Save

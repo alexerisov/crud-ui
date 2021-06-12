@@ -13,7 +13,7 @@ const SaveEditButtons = ({params, commit, remove}) => {
 
     const setRowMode = (mode) => {
         const editableCells = ['firstName', 'lastName']
-        editableCells.forEach(el => {
+        editableCells.reverse().forEach(el => {
             params.api.setCellMode(params.id, el, mode)
         })
         setIsEditing(mode === 'edit')

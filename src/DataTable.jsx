@@ -12,7 +12,7 @@ export default function DataTable() {
         setEditRowsModel(params.model);
     }, []);
 
-    const handleCommit = ({id, api}) => {
+    function handleCommit({id, api}) {
         const fields = ['firstName', 'lastName']
         fields.map(el => {
             let params = api.getEditCellPropsParams(id, el)
@@ -20,11 +20,16 @@ export default function DataTable() {
         })
     }
 
-    const handleRemove = ({id, api}) => {
+    function handleRemove ({id, api}) {
         if (!id || !api) {
-            return
+            return;
         }
-        api.updateRows([{ id, _action: 'delete' }]);
+        api.updateRows([{id, _action: 'delete'}]);
+    }
+
+    function handleCreate ({params, firstName, lastName}) {
+        let id = rows?.length + 1 || 0
+        params.api.updateRows([{id, firstName, lastName}]);
     }
 
     const useStyles = makeStyles({
@@ -68,7 +73,9 @@ export default function DataTable() {
             flex: 3/5,
             align: 'right',
             headerAlign: 'right',
-            renderHeader: () => <Create />,
+            renderHeader: (params) => <Create params={params}
+                                              create={handleCreate}/>,
+
             renderCell: (params) => <SaveEditButtons params={params}
                                                      commit={handleCommit}
                                                      remove={handleRemove} />,
