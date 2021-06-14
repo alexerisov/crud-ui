@@ -9,6 +9,13 @@ import TextField from '@material-ui/core/TextField';
 import {ButtonGroup} from '@material-ui/core';
 
 export default function Create() {
+    const [name, setName] = React.useState('Cat in the Hat');
+    const handleFirstNameChange = (event) => {
+     setName(event.target.value);
+    };
+    const handleLastNameChange = (event) => {
+        setName(event.target.value);
+       };
     return (
         <PopupState variant="popover" popupId="demo-popup-popover">
             {(popupState) => (

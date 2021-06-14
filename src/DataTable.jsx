@@ -65,7 +65,7 @@ export default function DataTable() {
         {
             field: ' ',
             sortable: false,
-            flex: 3/5,
+            flex: 1/5,
             align: 'right',
             headerAlign: 'right',
             renderHeader: () => <Create />,
@@ -98,7 +98,7 @@ export default function DataTable() {
                           onCellDoubleClick={handleDoubleCellClick}
                           onCellBlur={handleCellBlur}
                           onCellKeyDown={handleCellKeyDown}
-                          disableColumnMenu
+                          disableColumnMenu           
                           className={classes.root}
                 />
             </div>
