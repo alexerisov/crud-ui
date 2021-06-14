@@ -29,9 +29,10 @@ export default function DataTable() {
 
     function handleCreate ({params, firstName, lastName}) {
         let id = rows?.length + 1 || 0
-        params.api.updateRows([{id, firstName, lastName}]);
+        params.api.updateRows([{id, firstName, lastName, _action: 'add'}]);
     }
 
+    /* Remove outline styles */
     const useStyles = makeStyles({
         root: {
             '&.MuiDataGrid-root .MuiDataGrid-cell': {
@@ -43,6 +44,7 @@ export default function DataTable() {
         }
     });
 
+    /* Prevent default behavior */
     const handleDoubleCellClick = React.useCallback((params, event) => {
         event.stopPropagation();
     }, []);
@@ -63,7 +65,7 @@ export default function DataTable() {
 
     const classes = useStyles();
 
-
+    /* Column defenition */
     const columns = [
         { field: 'firstName', editable: true, headerName: 'First name', flex: 1/5 },
         { field: 'lastName', editable: true, headerName: 'Last name', flex: 1/5},
@@ -82,6 +84,7 @@ export default function DataTable() {
         },
     ];
 
+    /* Data array */
     const rows = [
         { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
         { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
