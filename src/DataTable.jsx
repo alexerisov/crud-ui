@@ -25,21 +25,17 @@ export default function DataTable() {
         fields.map(el => {
             data[el] = api.getEditCellProps(id, el).value || ""
         })
+        console.log(`${url}/api/records/${id}`);
         axios
-      .post(`${url}/api/records/${id}`, data)
-      .then((res) => {
-        if (res.request.status != 200) {
-          throw Error("PUT request is not success")
-        }
-        setRows(
-          rows.map((el) =>
-            el.id === id ? { id, data: data } : el
-          )
-        )
-      })
-      .catch((error) => {
-        notify(error.message)
-      })
+          .post(`${url}/api/records/${id}`, {data: data})
+          .then((res) => {
+            if (res.request.status != 200) {
+              throw Error("PUT request is not success")
+            }
+          })
+          .catch((error) => {
+            notify(error.message)
+          })
     }
 
     function handleRemove ({id, api}) {
@@ -49,7 +45,6 @@ export default function DataTable() {
         if (res.request.status != 200) {
           throw Error("DELETE request is not success")
         }
-        setRows(rows.filter((el) => el.id != id))
       })
       .catch((error) => {
         notify(error.message)
@@ -58,15 +53,12 @@ export default function DataTable() {
 
     function handleCreate (data) {
         const id = rows?.length + 1 || 0;
-
-          axios
-            .put(`${url}/api/records`, {"_id": id, data})
+        axios
+            .put(`${url}/api/records`, {data: data})
             .then((res) => {
                 if (res.statusText != "OK") {
                 throw Error("POST request is not success")
               }
-                console.log({id, data});
-              setRows([...rows, {id, data}])
             })
             .catch((error) => {
               notify(error.message)
@@ -97,7 +89,7 @@ export default function DataTable() {
               notify(err.message)
             })
         }, 1000)
-      }, [])
+      }, [rows])
 
     /* Remove outline styles */
     const useStyles = makeStyles({
