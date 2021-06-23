@@ -6,7 +6,7 @@ This is the simple react application
 run:
 
 ```
-git clone git@gitlab.com:alexerisov/crud-ui
+git clone https://gitlab.com:alexerisov/crud-ui (or you can use mirror https://gitlab.com:alexerisov/crud-ui-reserve)
 cd crud-ui
 npm i
 npm start
