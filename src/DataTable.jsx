@@ -9,6 +9,7 @@ import toast, {Toaster} from 'react-hot-toast';
 
 export default function DataTable() {
     const [rows, setRows] = React.useState([])
+    const [requestData, setRequestData] = React.useState(new Date())
     const [editRowsModel, setEditRowsModel] = React.useState({});
 
     const notify = (message) => toast(message)
@@ -32,6 +33,7 @@ export default function DataTable() {
             if (res.request.status != 200) {
               throw Error("PUT request is not success")
             }
+            setRequestData(new Date())
           })
           .catch((error) => {
             notify(error.message)
@@ -45,6 +47,7 @@ export default function DataTable() {
         if (res.request.status != 200) {
           throw Error("DELETE request is not success")
         }
+          setRequestData(new Date())
       })
       .catch((error) => {
         notify(error.message)
@@ -59,6 +62,7 @@ export default function DataTable() {
                 if (res.statusText != "OK") {
                 throw Error("POST request is not success")
               }
+                setRequestData(new Date())
             })
             .catch((error) => {
               notify(error.message)
@@ -83,13 +87,14 @@ export default function DataTable() {
                 return unpackData(res.data)
             })
             .then((data) => {
-              setRows(data)
+                console.log('updated');
+                setRows(data)
             })
             .catch((err) => {
               notify(err.message)
             })
         }, 1000)
-      }, [rows])
+      }, [requestData])
 
     /* Remove outline styles */
     const useStyles = makeStyles({
