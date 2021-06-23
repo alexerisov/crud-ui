@@ -22,7 +22,7 @@ export default function DataTable() {
 
     function handleUpdate({id, api}) {
         const data = {}
-        const fields = ['name','phone','date','email','age']
+        const fields = ['name','phone','date','email','age','postText']
         fields.map(el => {
             data[el] = api.getEditCellProps(id, el).value || ""
         })
