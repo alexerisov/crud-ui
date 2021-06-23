@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, ButtonGroup } from '@material-ui/core'
 
 
-const SaveEditButtons = ({params, commit, remove}) => {
+const SaveEditButtons = ({params, update, remove}) => {
     const [isEditing, setIsEditing] = useState(false)
     const thisRow = params.api.getRow(params.id)
 
@@ -12,7 +12,7 @@ const SaveEditButtons = ({params, commit, remove}) => {
     };
 
     const setRowMode = (mode) => {
-        const editableCells = ['firstName', 'lastName']
+        const editableCells = ['name','phone','date','email','age', 'postText']
         editableCells.reverse().forEach(el => {
             params.api.setCellMode(params.id, el, mode)
         })
@@ -24,7 +24,7 @@ const SaveEditButtons = ({params, commit, remove}) => {
             <ButtonGroup color="primary" size="small">
                  <Button onMouseDown={handleMouseDown}
                          onClick= {() => {
-                                commit(params)
+                             update(params)
                                 setRowMode('view')
                          }}
                 >
